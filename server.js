@@ -1,12 +1,17 @@
 
 var express = require('express');
+var request = require('request');
 var app = new express();
 var path = require("path");
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+var prettyjson = require('prettyjson');
 
 //Soundprint Base Library
 var Soundprint = require('./Scripts/soundprint.js')
 var sp = new Soundprint();
 var user = sp.User;
+var calls = sp.Calls;
 
 
 //App can access anything in the directories registerd below
@@ -17,7 +22,30 @@ app.use('/Services',  express.static(__dirname + '/Services'));
 app.set('Views', path.join(__dirname, 'Views'));
 app.set('view engine', 'jade');
 
-var server = require('http').createServer(app);
+
+io.on('connection', function (socket) {
+  
+  //Last Fm Token
+  socket.on('LastFmToken', function (data) {
+    user.lastFmManager.authenticate(data.token, function (err, session) {
+      var sess = session;
+      console.log(sess);
+      if (err) {
+        throw err;
+        }
+        else{
+          request.get(calls.lfm.userTopTracks(session.username, user.lastFmManager.api.api_key), function (err, response, body) 
+          {
+            socket.emit('lastFmRecentTracks', { body: body });
+            });
+        }
+    });
+    
+  });
+  
+  
+});
+
 
 app.route("/")
 .get(function(req, res){
