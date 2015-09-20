@@ -1,11 +1,7 @@
 var apiKeys = require('/Users/Montre/Dev/SoundprintOS/SoundprintOS/Scripts/apikeys.js')
-var Keys = apiKeys();
 var LastfmAPI = require('lastfmapi');
-var lfm = new LastfmAPI({
-    api_key: Keys.LastFm.apiKey,    // sign-up for a key at http://www.last.fm/api
-    secret: Keys.LastFm.secret,
-    //  useragent: 'appname/vX.X MyApp' // optional. defaults to lastfm-node.
-});
+var Keys = apiKeys();
+var lfm = new LastfmAPI({ api_key: Keys.LastFm.apiKey, secret: Keys.LastFm.secret});
 
 function SoundPrint() {
 	this.User = {

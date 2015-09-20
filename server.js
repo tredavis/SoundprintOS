@@ -19,15 +19,24 @@ app.set('view engine', 'jade');
 
 var server = require('http').createServer(app);
 
-app.get("/", function(req, res){
+app.route("/")
+.get(function(req, res){
 	res.redirect('index.html');
-});
+})
+.post(function(req, rest){
+	console.log(req);
+})
 
 //LastFM
-app.get('/lastfmsignin', function(req, res){
+app.route('/lastfmsignin')
+.get(function(req, res){
     var authUrl = user.lastFmManager.getAuthenticationUrl({ 'cb': 'http://localhost:8080/' });
     res.redirect(authUrl);
-});
+	
+	})
+	.post(function(request, response){
+		
+	})
 
 app.get('/?token*/', function(){
    res.redirect('google.com');
