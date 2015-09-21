@@ -12,7 +12,7 @@ function SoundPrint() {
 		lastFmManager: lfm
 	}
 	
-	this.Calls = {
+	this.ApiCalls = {
 		type: "Pre Built Calls",
 		lfm: lastFmCustomCalls
 	}

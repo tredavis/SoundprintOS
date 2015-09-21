@@ -11,7 +11,7 @@ var prettyjson = require('prettyjson');
 var Soundprint = require('./Scripts/soundprint.js')
 var sp = new Soundprint();
 var user = sp.User;
-var calls = sp.Calls;
+var apiCalls = sp.ApiCalls;
 
 
 //App can access anything in the directories registerd below
@@ -34,7 +34,7 @@ io.on('connection', function (socket) {
         throw err;
         }
         else{
-          request.get(calls.lfm.userTopTracks(session.username, user.lastFmManager.api.api_key), function (err, response, body) 
+          request.get(apiCalls.lfm.userTopTracks(session.username, user.lastFmManager.api.api_key), function (err, response, body) 
           {
             socket.emit('lastFmRecentTracks', { body: body });
             });
